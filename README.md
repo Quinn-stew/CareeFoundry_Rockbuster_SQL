@@ -5,3 +5,14 @@ launch an online video rental service in order to stay competitive.
 
 I this project I was hired as a data analyst by Rockbuster business intelligence department to help with the launch strategy for the new online service. 
 The business intelligence department helps other departments, from inventory to customer insights, with data-related queries. Then will use SQL to analyze the data.
+
+## Key Quesitons
+● Which movies contributed the most/least to revenue gain?
+
+● What was the average rental duration for all videos?
+
+● Which countries are Rockbuster customers based in?
+
+● Where are customers with a high lifetime value based?
+
+● Do sales figures vary between geographic regions?

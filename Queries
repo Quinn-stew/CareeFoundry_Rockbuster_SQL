@@ -1,0 +1,93 @@
+#Finding the top 5 customers ther city country and amount they paid
+select a.customer_id,a.first_name,a.last_name,D.country,c.city,
+sum(e.amount) as total_paid
+from customer a
+inner join address b on a.address_id=b.address_id
+inner join city c on b.city_id=c.city_id
+inner join country D on c.country_id=D.country_id
+inner join payment e on a.customer_id=e.customer_id
+where city in ('Aurora','Atlixco','Zalantun','Pontianak','Tarsus',
+'Aparecida de Goinia','Emeishan','Rio Claro','Yingkou','Tokat')
+Group by a.customer_id,a.first_name,a.last_name,D.country,c.city
+order by total_paid desc
+limit 5
+
+#Finding the min, max, and average for rental_duration, length, rental_rate, replacement_cost and row count
+SELECT MIN(rental_duration) AS min_rent_duration,
+       MAX(rental_duration) AS max_rent_duration,
+       round(AVG(rental_duration),2) AS avg_rent_duration,
+       COUNT(rental_duration) AS count_rent_duration,
+       MIN(length) AS min_length,
+       MAX(length) AS max_length,
+       round(AVG(length),2) AS avg_length,
+       COUNT(length) AS count_length,
+       MIN(rental_rate) AS min_rent_rate,
+       MAX(rental_rate) AS max_rent_rate,
+       round(AVG(rental_rate),2) AS avg_rent_rate,
+       COUNT(rental_rate) AS count_rent_cost,
+       MIN(replacement_cost) AS min_replacement_cost,
+       MAX(replacement_cost) AS max_replacement_cost,
+       round(AVG(replacement_cost),2) AS avg_replacement_cost,
+       COUNT(replacement_cost) AS count_replacement_cost,
+       COUNT(*) AS count_rows
+FROM film;
+
+#Finding the amount of customers in the top 10 countrys
+select D.country,
+count(a.customer_id) as total_customers
+from customer a
+inner join address b on a.address_id=b.address_id
+inner join city c on b.city_id=c.city_id
+inner join country D on c.country_id=D.country_id
+Group by country
+order by count(*) desc
+limit 10 
+
+#Finding the amount of customers in the top 10 citys
+select c.city,
+count(a.customer_id) as total_customer
+from customer a
+inner join address b on a.address_id=b.address_id
+inner join city c on b.city_id=c.city_id
+inner join country D on c.country_id=D.country_id
+where country in ('India','China','United States','Japan','Mexico',
+'Brazil','Russian Federation','Philippines','Turkey','Indonesia')
+Group by city
+order by count(*) desc
+limit 10
+
+#Finding the total amount paid by country
+select D.country,
+sum(e.amount) as sum
+from customer a
+inner join address b on a.address_id=b.address_id
+inner join city c on b.city_id=c.city_id
+inner join country D on c.country_id=D.country_id
+inner join payment e on a.customer_id=e.customer_id
+Group by country
+order by count(*) desc
+
+#Finding the total amount made and avg rental duration by genres
+select a.name,
+sum(amount) as Total_amount,
+round(avg(c.rental_duration),2) as avg_rental_duration
+from category a
+inner join film_category b on a.category_id=b.category_id
+inner join film c on b.film_id=c.film_id
+inner join inventory d on c.film_id=d.film_id
+inner join rental e on d.inventory_id=e.inventory_id
+inner join payment f on e.rental_id=f.rental_id
+group by a.name
+
+#Finding the amount of rented movies by country seperated by genres
+select a.country,g.name,
+count(g.name)as rented_copies
+from country a 
+inner join city b on a.country_id=b.country_id
+inner join address c on b.city_id=c.city_id
+inner join customer d on c.address_id=d.address_id
+inner join inventory e on d.store_id=e.store_id
+inner join film_category f on e.film_id=f.film_id
+left join category g on f.category_id=g.category_id
+group by a.country,g.name
+order by a.country
